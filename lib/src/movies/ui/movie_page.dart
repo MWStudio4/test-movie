@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/src/movies/bloc/movie_cubit.dart';
@@ -19,10 +20,23 @@ class _MoviesPageState extends State<MoviesPage> {
           title: Text(movie.title),
           content: SingleChildScrollView(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              // mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Image.network(movie.urlPoster),
+                CachedNetworkImage(
+                  imageUrl: movie.urlPoster,
+                  progressIndicatorBuilder: (context, url, downloadProgress) => Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                          height: 300,
+                          child: Center(child: CircularProgressIndicator(value: downloadProgress.progress))),
+                    ],
+                  ),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
                 const SizedBox(height: 16),
                 Text(movie.overview),
               ],
