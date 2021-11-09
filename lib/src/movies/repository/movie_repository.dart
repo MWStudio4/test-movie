@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:movie_app/main.dart';
 import 'package:movie_app/src/movies/model/movie_model.dart';
 
 class MovieRepository {
@@ -12,6 +13,8 @@ class MovieRepository {
           'https://api.themoviedb.org/3/discover/movie?api_key=a09ee7e7a2bae5f07177a9f0d8600ac7&language=ru-RU&sort_by=popularity.desc';
 
       final response = await client.get(url);
+
+      logger.d(response.data['results']);
 
       final movies = List<MovieModel>.of(
         response.data['results'].map<MovieModel>(
